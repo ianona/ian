@@ -26,11 +26,11 @@
     <q-page-container>
       <HelloWorld />
 
-      <TimeLines id="about" />
-      <ProjectsSection id="projects" />
+      <TimeLines id="about" @scrolling="handleScroll" />
+      <ProjectsSection id="projects" @scrolling="handleScroll" />
 
-      <PublicationsSection id="pubs" />
-      <ContactSection id="contact" />
+      <PublicationsSection id="pubs" @scrolling="handleScroll" />
+      <ContactSection id="contact" @scrolling="handleScroll" />
 
       <q-page-scroller
         position="bottom-right"
@@ -77,6 +77,11 @@ export default defineComponent({
   methods: {
     scrollTo(anchor) {
       document.getElementById(anchor).scrollIntoView({ behavior: "smooth" });
+    },
+    handleScroll(sectionName) {
+      if (sectionName == "" && this.tab != "about") return;
+      if (sectionName == "contact" && this.tab != "pubs") return;
+      this.tab = sectionName;
     },
   },
 });

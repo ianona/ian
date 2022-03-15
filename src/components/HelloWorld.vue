@@ -12,7 +12,7 @@
       <template v-slot:navigation-icon="{ active }">
         <q-linear-progress
           v-if="active"
-          :value="progress * 0.2"
+          :value="(progress / 5) * 0.2"
           class="q-mt-md"
         />
       </template>
@@ -34,10 +34,12 @@
               <h1>I am a software engineer</h1>
             </div>
             <div class="col col-md-4">
-               <h4>based in Taipei and currently looking for job opportunities in tech
-                 <!-- <br/> -->
-          <!-- in both large tech companies and startup spaces -->
-          </h4>
+              <h4>
+                based in Taipei and currently looking for job opportunities in
+                tech
+                <!-- <br/> -->
+                <!-- in both large tech companies and startup spaces -->
+              </h4>
             </div>
           </div>
         </div>
@@ -46,18 +48,19 @@
         <!-- <q-icon name="layers" size="56px" /> -->
         <div class="q-mt-md text-center">
           <h1>Exercise is cool too</h1>
-          <h4 transition-show="jump-down">I also like cooking, reviewing movies, and reading (anything)</h4>
+          <h4 transition-show="jump-down">
+            I also like cooking, reviewing movies, and reading (anything)
+          </h4>
         </div>
       </q-carousel-slide>
     </q-carousel>
     <!-- place QPageScroller at end of page -->
-          
+
     <!-- <img alt="Quasar logo" src="../assets/logo.svg" style="width: 200px; height: 200px"> -->
   </q-page>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 export default {
@@ -73,16 +76,16 @@ export default {
     };
   },
   mounted() {
-    this.interval = setInterval(this.startInterval, 1000);
+    this.interval = setInterval(this.startInterval, 1000 / 10);
   },
   methods: {
     startInterval() {
-      if (this.progress >= 5) {
+      if (this.progress >= 5 * 10) {
         clearInterval(this.interval);
         this.curSlide = (this.curSlide + 1) % 3;
         this.slide = this.slides[this.curSlide];
-        this.progress = 1;
-        this.interval = setInterval(this.startInterval, 1000);
+        this.progress = 1 / 10;
+        this.interval = setInterval(this.startInterval, 1000 / 10);
       } else {
         this.progress++;
       }

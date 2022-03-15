@@ -2,13 +2,32 @@
   <q-page :style-fn="myTweak">
     <div class="row justify-evenly">
       <div class="col-8">
-        <h3>Publications</h3>
+        <div
+          :data-id="2"
+          v-intersection.once="onIntersection"
+          style="
+             {
+              min-height: 60px;
+            }
+          "
+        >
+          <h3>
+            <vue-writer
+              v-if="inView[2]"
+              :array="['Publications']"
+              :iterations="1"
+              caret="cursor"
+            >
+            </vue-writer>
+          </h3>
+        </div>
         <q-list separator>
           <q-item
             clickable
             v-ripple
             :data-id="0"
             v-intersection="onIntersection"
+            @click="open('https://doi.org/10.3303/CET2188092')"
           >
             <transition name="q-transition--jump-up">
               <q-item-section v-if="inView[0]">
@@ -27,6 +46,7 @@
             v-ripple
             :data-id="1"
             v-intersection="onIntersection"
+            @click="open('https://doi.org/10.1145/3391203.3391219')"
           >
             <transition name="q-transition--jump-up">
               <q-item-section v-if="inView[1]">
@@ -58,15 +78,22 @@
 
 <script>
 import { ref } from "vue";
+import VueWriter from "vue-writer";
 export default {
   name: "PublicationsSection",
+  components: {
+    VueWriter,
+  },
   methods: {
     myTweak(offset) {
-      return { minHeight: offset ? `calc(50vh - ${offset}px)` : "50vh" };
+      return { minHeight: offset ? `calc(70vh - ${offset}px)` : "70vh" };
+    },
+    open(url) {
+      window.open(url);
     },
   },
-  setup() {
-    const inView = ref(Array.apply(null, Array(2)).map((_) => false));
+  setup(props, { emit }) {
+    const inView = ref(Array.apply(null, Array(3)).map((_) => false));
     return {
       inView,
       onIntersection(entry) {
@@ -75,6 +102,8 @@ export default {
         setTimeout(() => {
           inView.value.splice(index, 1, entry.isIntersecting);
         }, 100);
+        if (index == 1 && entry.isIntersecting) emit("scrolling", "pubs");
+        if (index == 1 && !entry.isIntersecting) emit("scrolling", "contact");
       },
     };
   },
