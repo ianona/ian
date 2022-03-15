@@ -81,6 +81,7 @@ export default {
   methods: {
     startInterval() {
       if (this.progress >= 5 * 10) {
+        // random comment
         clearInterval(this.interval);
         this.curSlide = (this.curSlide + 1) % 3;
         this.slide = this.slides[this.curSlide];
